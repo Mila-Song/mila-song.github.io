@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎓 博士毕业快乐 | Dr. <你的妹妹名字></title>
+  <meta name="description" content="为妹妹博士毕业定制的个人庆祝与展示网站。" />
+  <meta property="og:title" content="博士毕业快乐 | Dr. <你的妹妹名字>" />
+  <meta property="og:description" content="为妹妹博士毕业定制的个人庆祝与展示网站。" />
+  <meta property="og:type" content="website" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{
+      --bg: #0f172a;           /* 背景深蓝 */
+      --card: #111827;         /* 卡片深灰 */
+      --text: #e5e7eb;         /* 主文字浅灰 */
+      --muted: #9ca3af;        /* 次文字灰 */
+      --accent: #60a5fa;       /* 高亮蓝 */
+      --accent-2: #34d399;     /* 高亮绿 */
+      --ring: rgba(100,149,237,.35);
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text); background: radial-gradient(1200px 600px at 80% -10%, rgba(96,165,250,.18), transparent 60%),
+                           radial-gradient(900px 500px at 10% 10%, rgba(52,211,153,.15), transparent 60%),
+                           var(--bg);
+      line-height:1.6;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1040px; margin:0 auto; padding:28px}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin:10px 0 24px;
+    }
+    .brand{font-weight:800; letter-spacing:.3px; display:flex; align-items:center; gap:10px}
+    .brand .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 0 20px rgba(96,165,250,.7)}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, rgba(96,165,250,.2), rgba(52,211,153,.2));
+      border:1px solid rgba(255,255,255,.12); color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer;
+      backdrop-filter: blur(6px);
+    }
+    .btn:hover{box-shadow:0 6px 24px rgba(96,165,250,.25)}
+
+    .hero{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:24px; align-items: center;
+    }
+    .card{background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius); box-shadow:var(--shadow); padding:24px;
+    }
+    .badge{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.08)}
+    .title{font-size:40px; line-height:1.1; margin:10px 0 8px; font-weight:900}
+    .subtitle{color:var(--muted); font-size:15px}
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+    .photo{
+      width:100%; aspect-ratio: 1/1; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.08);
+      background: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+    }
+
+    .grid{display:grid; gap:20px}
+    @media (max-width:900px){ .hero{grid-template-columns: 1fr} }
+    @media (min-width:900px){ .grid-3{grid-template-columns: 1fr 1fr 1fr} }
+
+    .section{margin-top:28px}
+    .section h2{font-size:22px; margin:0 0 12px}
+
+    /* 时间线 */
+    .timeline{position:relative; padding-left:24px}
+    .timeline:before{content:''; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background:linear-gradient(180deg, var(--accent), transparent)}
+    .titem{position:relative; margin:12px 0; padding:12px 14px; border:1px solid rgba(255,255,255,.08); border-radius:14px; background:rgba(255,255,255,.03)}
+    .titem:before{content:''; position:absolute; left:-6px; top:18px; width:12px; height:12px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 0 0 4px rgba(96,165,250,.15)}
+    .titem small{color:var(--muted)}
+
+    /* 列表 */
+    .list{display:grid; gap:12px}
+    .pub{padding:12px 14px; border:1px dashed rgba(255,255,255,.15); border-radius:14px; background:rgba(255,255,255,.02)}
+    .pub b{display:block}
+
+    /* 图库 */
+    .gallery{display:grid; grid-template-columns: repeat( auto-fit, minmax(160px, 1fr) ); gap:12px}
+    .gallery img{width:100%; height:160px; object-fit:cover; border-radius:14px; border:1px solid rgba(255,255,255,.08)}
+
+    /* 页脚 */
+    footer{margin:40px 0 20px; text-align:center; color:var(--muted)}
+
+    /* 可达性辅助 */
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+
+    /* 庆祝弹幕（纸屑） */
+    canvas#confetti{position:fixed; inset:0; pointer-events:none}
+  </style>
+</head>
+<body>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="container">
+    <!-- 顶部导航 -->
+    <header class="nav" role="banner">
+      <div class="brand" aria-label="站点品牌">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Dr. <span id="nameBrand">你的妹妹名字</span></span>
+      </div>
+      <nav aria-label="外部链接">
+        <a class="btn" href="#publications">论文</a>
+        <a class="btn" href="#milestones">里程碑</a>
+        <a class="btn" href="#gallery">相册</a>
+      </nav>
+    </header>
+
+    <!-- 头部区块 -->
+    <section class="hero" aria-label="封面">
+      <div class="card">
+        <span class="badge">🎓 Class of 2025 • 博士毕业</span>
+        <h1 class="title">恭喜 <span id="nameTitle">你的妹妹名字</span> 博士毕业！</h1>
+        <p class="subtitle">致敬你多年的坚持与热爱。愿你在研究与人生的道路上，继续保持好奇、勇气与温柔的力量。</p>
+        <div class="actions">
+          <button class="btn" id="celebrateBtn" aria-label="庆祝按钮">🎉 Celebrate</button>
+          <a class="btn" href="mailto:your-sister@email.com" aria-label="联系">📮 联系她</a>
+          <a class="btn" href="CV.pdf" aria-label="下载简历（可选）">📄 简历</a>
+        </div>
+      </div>
+      <figure class="photo card" role="img" aria-label="毕业照片占位"></figure>
+    </section>
+
+    <!-- 快速信息卡片 -->
+    <section class="grid grid-3 section" aria-label="快速信息">
+      <div class="card">
+        <h2>研究方向</h2>
+        <p class="subtitle">示例：AI 安全、联邦/切分学习、区块链、IoT</p>
+      </div>
+      <div class="card">
+        <h2>隶属单位</h2>
+        <p class="subtitle">示例：RMIT University • School/Group</p>
+      </div>
+      <div class="card">
+        <h2>社交链接</h2>
+        <p><a href="#">Google Scholar</a> · <a href="#">LinkedIn</a> · <a href="#">GitHub</a></p>
+      </div>
+    </section>
+
+    <!-- 里程碑时间线 -->
+    <section id="milestones" class="section">
+      <h2>🎯 里程碑 Milestones</h2>
+      <div class="timeline">
+        <div class="titem"><b>2025.06</b> — 完成博士论文答辩 <small>（题目示例：Edge Data Integrity Verification）</small></div>
+        <div class="titem"><b>2024.11</b> — 担任研究员/讲师 <small>RMIT University</small></div>
+        <div class="titem"><b>2023.05</b> — 论文入选 IEEE JSAC/ICLR <small>一作/学生一作示例</small></div>
+        <div class="titem"><b>2021.03</b> — 开启博士旅程 <small>导师示例：Prof. X</small></div>
+      </div>
+    </section>
+
+    <!-- 代表性论文 -->
+    <section id="publications" class="section">
+      <h2>📝 代表性论文 Selected Publications</h2>
+      <div class="list">
+        <div class="pub">
+          <b>[1] Your S. Sister*, You, Y., et al.</b>
+          <span>"Secure and Efficient Edge Data Integrity Verification using Blockchain and Federated Learning", <i>IEEE TMC</i>, 2025.</span>
+        </div>
+        <div class="pub">
+          <b>[2] Your S. Sister*, Collaborator, C.</b>
+          <span>"MarkSplit: Watermarking for Split Learning", <i>ICLR</i>, 2024.</span>
+        </div>
+        <div class="pub">
+          <b>[3] Your S. Sister</b>
+          <span>"I-EDI: Intelligent Data Integrity Verification", <i>IEEE JSAC</i>, 2023.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 相册 -->
+    <section id="gallery" class="section">
+      <h2>📷 相册 Gallery</h2>
+      <div class="gallery" aria-label="图片网格">
+        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="毕业照示例 1" />
+        <img src="https://images.unsplash.com/photo-1530092285049-1c42085fd395?q=80&w=1200&auto=format&fit=crop" alt="毕业照示例 2" />
+        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="毕业照示例 3" />
+        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="毕业照示例 4" />
+      </div>
+    </section>
+
+    <!-- 致辞（可自定义） -->
+    <section class="section">
+      <h2>💌 来自家人的一句话</h2>
+      <div class="card">
+        <p>亲爱的 <b><span id="nameInline">你的妹妹名字</span></b>：
+        你用智慧与毅力走到了这里。愿你保持热爱，奔赴山海——未来的每一步，都光芒万丈。
+        </p>
+        <p class="subtitle">—— 来自家人</p>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> for Dr. <span id="nameFoot">你的妹妹名字</span> · Built with ❤️ on GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    // ==== 可编辑的一些变量（替换为你妹妹的信息） ====
+    const SISTER = {
+      name: '你的妹妹名字',
+      email: 'your-sister@email.com',
+      photoUrl: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop',
+      scholar: '#', linkedin: '#', github: '#', cv: 'CV.pdf'
+    };
+
+    // ==== 渲染基本信息 ====
+    document.getElementById('nameBrand').textContent = SISTER.name;
+    document.getElementById('nameTitle').textContent = SISTER.name;
+    document.getElementById('nameInline').textContent = SISTER.name;
+    document.getElementById('nameFoot').textContent = SISTER.name;
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 更新链接与照片
+    document.querySelector('.photo').style.backgroundImage = `url('${SISTER.photoUrl}')`;
+    const links = document.querySelectorAll('a');
+    links.forEach(a => {
+      if(a.textContent.includes('Google Scholar')) a.href = SISTER.scholar;
+      if(a.textContent.includes('LinkedIn')) a.href = SISTER.linkedin;
+      if(a.textContent.includes('GitHub')) a.href = SISTER.github;
+      if(a.textContent.includes('简历')) a.href = SISTER.cv;
+      if(a.textContent.includes('联系她')) a.href = `mailto:${SISTER.email}`;
+    });
+
+    // ==== 简易纸屑动画 ====
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H; let pieces = []; let running = false; let rafId;
+
+    function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+    addEventListener('resize', resize); resize();
+
+    function spawn(n=120){
+      for(let i=0;i<n;i++){
+        pieces.push({
+          x: Math.random()*W,
+          y: -20 - Math.random()*H*0.5,
+          r: 6 + Math.random()*10,
+          s: 1 + Math.random()*2.2,
+          a: Math.random()*Math.PI*2,
+          av: (Math.random()-.5)*0.2,
+          hue: 180 + Math.random()*180
+        });
+      }
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of pieces){
+        p.y += p.s; p.x += Math.sin(p.a)*0.8; p.a += p.av;
+        if(p.y > H+40) { p.y = -20; p.x = Math.random()*W; }
+        ctx.save();
+        ctx.translate(p.x,p.y); ctx.rotate(p.a);
+        ctx.fillStyle = `hsl(${p.hue},85%,60%)`;
+        ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);
+        ctx.restore();
+      }
+      rafId = requestAnimationFrame(draw);
+    }
+
+    function startConfetti(){ if(running) return; running = true; spawn(200); draw(); setTimeout(stopConfetti, 5000); }
+    function stopConfetti(){ cancelAnimationFrame(rafId); running = false; pieces = []; ctx.clearRect(0,0,W,H); }
+
+    document.getElementById('celebrateBtn').addEventListener('click', ()=>{ startConfetti(); });
+  </script>
+</body>
+</html>
