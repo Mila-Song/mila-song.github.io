@@ -1,250 +1,379 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎓 博士毕业快乐 | 给 Mingyu 的相册与祝福</title>
-  <meta name="description" content="为 Mingyu 的博士毕业打造的图片展示与祝福页" />
-  <meta property="og:title" content="博士毕业快乐 | Mingyu 的相册与祝福" />
-  <meta property="og:description" content="愿你保持热爱，奔赴山海。" />
-  <meta property="og:type" content="website" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎓 博士毕业快乐 | Dr. Mingyu Song</title>
+  <meta name="description" content="为博士毕业喝彩的庆祝与展示页面。" />
   <meta name="color-scheme" content="light dark" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <!-- Lightbox2 -->
+  <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet" />
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
   <style>
     :root{
-      --bg: #0f172a;           /* 背景深蓝 */
-      --card: #111827;         /* 卡片深灰 */
-      --soft: rgba(255,255,255,.06);
-      --text: #e5e7eb;         /* 主文字浅灰 */
-      --muted: #9ca3af;        /* 次文字灰 */
-      --accent: #60a5fa;       /* 高亮蓝 */
-      --accent-2: #E19C66;     /* 温暖赭色 */
-      --radius: 18px;
+      --bg:#0b1020;
+      --panel:#101827;
+      --text:#eaf2ff;
+      --muted:#9bb0d1;
+      --accent:#7dd3fc;
+      --accent-2:#a78bfa;
+      --card:#0f172a;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text); background:
-        radial-gradient(1200px 600px at 80% -10%, rgba(96,165,250,.18), transparent 60%),
-        radial-gradient(900px 500px at 10% 10%, rgba(225,156,102,.18), transparent 60%),
-        var(--bg);
-      line-height:1.6;
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:radial-gradient(1200px 600px at 20% -10%, #1a2655 0%, #0b1020 60%, #060913 100%);
+      overflow-x:hidden;
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:1100px; margin:0 auto; padding:28px}
+    a{color:var(--accent)}
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:96px 16px 64px;
+      isolation:isolate;
+    }
+    #vanta-bg{
+      position:absolute; inset:0; z-index:-1;
+    }
+    .hero-inner{
+      max-width: 1100px;
+      width: 100%;
+      padding: 24px;
+    }
+    .badge{
+      display:inline-block;
+      padding:.4rem .7rem;
+      border:1px solid rgba(125,211,252,.45);
+      border-radius:999px;
+      color:var(--accent);
+      background:rgba(125,211,252,.08);
+      backdrop-filter: blur(6px);
+      font-size:.9rem;
+      letter-spacing:.04em;
+    }
+    h1{
+      margin:18px 0 6px;
+      font-weight:800;
+      font-size: clamp(2rem, 4vw + 1rem, 4rem);
+      line-height:1.05;
+      letter-spacing:.01em;
+      text-shadow: 0 2px 30px rgba(124, 58, 237, .25);
+    }
+    .typed{
+      font-size: clamp(1.05rem, 1vw + .8rem, 1.4rem);
+      color:var(--muted);
+      min-height:2.2em;
+    }
+    .cta{
+      margin-top:28px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      appearance:none;border:0;cursor:pointer;
+      padding:12px 18px;border-radius:999px;
+      font-weight:600;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#051018;
+      box-shadow: var(--shadow);
+      transition: transform .06s ease;
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid rgba(167,139,250,.5);
+      color:var(--text);
+    }
 
-    /* 顶部 */
-    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px; margin:10px 0 24px}
-    .brand{font-weight:800; letter-spacing:.3px; display:flex; align-items:center; gap:10px}
-    .brand .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 0 20px rgba(96,165,250,.7)}
-    .btn{display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, rgba(96,165,250,.2), rgba(225,156,102,.2)); border:1px solid rgba(255,255,255,.12); color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; backdrop-filter: blur(6px)}
-    .btn:hover{box-shadow:0 6px 24px rgba(96,165,250,.25)}
+    .section{
+      padding:72px 16px;
+    }
+    .container{
+      width:min(1100px, 92vw);
+      margin:0 auto;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:18px;
+      margin-top:22px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(148,163,184,.18);
+      border-radius:18px;
+      padding:18px;
+      box-shadow: var(--shadow);
+    }
+    .metric{
+      font-size: clamp(1.8rem, 2.5vw + 1rem, 3rem);
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+    .muted{ color: var(--muted); }
 
-    /* 头图 */
-    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:24px; align-items: center}
-    .card{background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px}
-    .badge{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12)}
-    .title{font-size:42px; line-height:1.1; margin:10px 0 8px; font-weight:900}
-    .subtitle{color:var(--muted); font-size:16px}
-    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
-    .photo{width:100%; aspect-ratio: 4/5; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.08); background: url('https://images.unsplash.com/photo-1530092285049-1c42085fd395?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat}
+    /* Timeline */
+    .timeline{
+      position:relative;
+      margin: 24px 0 0;
+      padding-left: 24px;
+    }
+    .timeline::before{
+      content:""; position:absolute; left:12px; top:0; bottom:0; width:2px;
+      background: linear-gradient(180deg, rgba(125,211,252,.6), rgba(167,139,250,.6));
+    }
+    .tl-item{
+      position:relative; margin: 0 0 26px 0; padding-left:18px;
+    }
+    .tl-item::before{
+      content:""; position:absolute; left:-2px; top:.4em; width:12px; height:12px; border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow:0 0 0 4px rgba(125,211,252,.15);
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap:12px;
+    }
+    .gallery a{
+      display:block; border-radius:14px; overflow:hidden; border:1px solid rgba(148,163,184,.18);
+      box-shadow: var(--shadow);
+    }
+    .gallery img{ width:100%; height:220px; object-fit:cover; display:block; }
 
-    @media (max-width:900px){ .hero{grid-template-columns: 1fr} }
+    footer{
+      padding:48px 16px 72px; text-align:center; color:var(--muted);
+    }
 
-    .section{margin-top:28px}
-    .section h2{font-size:22px; margin:0 0 12px}
-
-    /* 祝福语卡片 */
-    .bless-grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px}
-    .bless{background:var(--soft); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px}
-    .bless p{margin:0}
-    .bless .from{display:block; margin-top:8px; color:var(--muted); font-size:13px}
-
-    /* 瀑布流相册 */
-    .masonry{column-count: 3; column-gap: 12px}
-    @media (max-width:900px){ .masonry{column-count:2} }
-    @media (max-width:600px){ .masonry{column-count:1} }
-    .shot{break-inside: avoid; margin-bottom:12px; position:relative}
-    .shot img{width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.1); display:block}
-    .shot figcaption{position:absolute; left:10px; bottom:10px; background:rgba(17,24,39,.6); padding:6px 10px; border-radius:999px; font-size:12px; color:#fff}
-
-    /* 祝福墙 CTA */
-    .cta{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; border:1px dashed rgba(255,255,255,.2); border-radius:16px; background:linear-gradient(180deg, rgba(225,156,102,.12), rgba(255,255,255,.02))}
-
-    footer{margin:40px 0 20px; text-align:center; color:var(--muted)}
-
-    canvas#confetti{position:fixed; inset:0; pointer-events:none}
-      /* 留言墙样式 */
-    .gitem{background:var(--soft); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px}
-    .gitem .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; margin-top:8px}
-    .avatar{width:22px; height:22px; border-radius:50%; border:1px solid rgba(255,255,255,.15)}
+    @media (prefers-color-scheme: light){
+      :root{ --text:#0c1222; --muted:#5d708f; --bg:#f3f6ff; --panel:#ffffff; --card:#ffffff; }
+      body{ background: radial-gradient(1200px 600px at 20% -10%, #e8efff 0%, #f6f8ff 60%, #f3f6ff 100%) }
+      .card{ background:#fff }
+    }
   </style>
 </head>
 <body>
-  <canvas id="confetti" aria-hidden="true"></canvas>
-  <div class="container">
-    <!-- 顶部导航 -->
-    <header class="nav" role="banner">
-      <div class="brand" aria-label="站点品牌">
-        <span class="dot" aria-hidden="true"></span>
-        <span>为 <b id="nameBrand">Mingyu</b> 的毕业喝彩</span>
-      </div>
-      <nav aria-label="内部导航">
-        <a class="btn" href="#gallery">相册</a>
-        <a class="btn" href="#bless">祝福</a>
-        <a class="btn" href="#guestbook">留言墙</a>
-        <button class="btn" id="celebrateBtn">🎉 放彩带</button>
-      </nav>
-    </header>
+  <!-- 动态背景挂载容器 -->
+  <div id="vanta-bg"></div>
 
-    <!-- 头图与祝词 -->
-    <section class="hero" aria-label="封面">
-      <div class="card">
-        <span class="badge">🎓 Class of 2025 • 博士毕业</span>
-        <h1 class="title">恭喜 <span id="nameTitle">Mingyu Song</span> 博士毕业！</h1>
-        <p class="subtitle">这一刻，想把世上最温柔的祝福都送给你：愿你所热爱，终将抵达；愿你所向往，皆能绽放。</p>
-        <div class="actions">
-          <a class="btn" href="#bless">💌 写下祝福</a>
-          <a class="btn" href="#gallery">📷 看看相册</a>
+  <!-- 主视觉 -->
+  <header class="hero">
+    <div class="hero-inner" data-aos="zoom-in" data-aos-duration="900">
+      <span class="badge">🎓 Doctoral Graduation · 荣耀时刻</span>
+      <h1>恭喜毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
+      <div class="typed" id="typed"></div>
+
+      <div class="cta">
+        <button class="btn" id="btn-confetti">🎉 再来一发礼花</button>
+        <a class="btn ghost" href="#gallery">📸 浏览相册</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 亮点指标 -->
+  <section class="section">
+    <div class="container">
+      <h2 data-aos="fade-up">一路走来 · 高光时刻</h2>
+      <p class="muted" data-aos="fade-up" data-aos-delay="120">用数字记录这段非凡旅程。</p>
+      <div class="cards">
+        <div class="card" data-aos="fade-up" data-aos-delay="0">
+          <div class="metric" id="years">0</div>
+          <div class="muted">年坚持与成长</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="80">
+          <div class="metric" id="papers">0</div>
+          <div class="muted">篇论文/作品</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="160">
+          <div class="metric" id="talks">0</div>
+          <div class="muted">次报告/展示</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="240">
+          <div class="metric" id="coffee">0</div>
+          <div class="muted">杯咖啡（大概😅）</div>
         </div>
       </div>
-      <figure class="photo card" role="img" aria-label="毕业主视觉"></figure>
-    </section>
+    </div>
+  </section>
 
-    <!-- 留言墙：基于 GitHub Issues 的无后端实现 -->
-    <section id="guestbook" class="section">
-      <h2>🧧 留言墙 Guestbook</h2>
-      <div class="cta" style="margin-bottom:14px">
-        <div>
-          <b>把你的祝福写在公开留言墙</b>
-          <div class="subtitle">点击按钮将在本仓库创建一条带有 <code>guestbook</code> 标签的 Issue（无需登录也可阅读，留言需登录 GitHub）。</div>
+  <!-- 时间轴 -->
+  <section class="section">
+    <div class="container">
+      <h2 data-aos="fade-right">里程碑 · Timeline</h2>
+      <div class="timeline">
+        <div class="tl-item card" data-aos="fade-up">
+          <h3>2021 · 起点</h3>
+          <p class="muted">确定研究方向，立下“长期主义”的小目标。</p>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
-          <a class="btn" id="newIssueBtn" target="_blank" rel="noopener">✍️ 写下祝福</a>
+        <div class="tl-item card" data-aos="fade-up" data-aos-delay="100">
+          <h3>2022 · 初露锋芒</h3>
+          <p class="muted">第一篇顶会/顶刊录用，迈出关键一步。</p>
         </div>
-      </div>
-      <div id="guestbook-list" class="bless-grid" aria-live="polite"></div>
-      <div id="guestbook-empty" class="subtitle" style="display:none; margin-top:8px">还没有留言，快成为第一位送上祝福的人吧～</div>
-    </section>
-
-    <!-- 祝福语区域 -->
-    <section id="bless" class="section">
-      <h2>💌 祝福语 Blessings</h2>
-      <div class="bless-grid">
-        <div class="bless"><p>愿你心中有光，脚下有路，所到之处皆是风景。</p><span class="from">—— 家人</span></div>
-        <div class="bless"><p>愿你不负热爱，不惧风浪，在星辰大海里继续发光。</p><span class="from">—— 朋友</span></div>
-        <div class="bless"><p>博士不是终点，而是更辽阔旅途的序章。</p><span class="from">—— 导师</span></div>
-        <div class="bless"><p>保持好奇，拥抱变化，永远相信自己的选择。</p><span class="from">—— 同学</span></div>
-      </div>
-      <div class="cta section">
-        <div>
-          <b>想对 Mingyu 说点啥？</b>
-          <div class="subtitle">点击按钮，发送你的祝福（邮件或社交平台都可以）。</div>
+        <div class="tl-item card" data-aos="fade-up" data-aos-delay="200">
+          <h3>2023 · 乘风破浪</h3>
+          <p class="muted">合作与出访，拓展视野与边界。</p>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn" id="sendMail" href="mailto:your-sister@email.com?subject=祝福&body=亲爱的 Mingyu，">📮 发邮件</a>
-          <a class="btn" href="#" onclick="alert('也可以把祝福写进博客或朋友圈，配上她的美照喔～')">📝 其他方式</a>
+        <div class="tl-item card" data-aos="fade-up" data-aos-delay="300">
+          <h3>2024 · 厚积薄发</h3>
+          <p class="muted">多项成果落地，攻克难题。</p>
+        </div>
+        <div class="tl-item card" data-aos="fade-up" data-aos-delay="400">
+          <h3>2025 · Viva 通过</h3>
+          <p class="muted">答辩顺利，博士加冕！</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 相册：瀑布流 -->
-    <section id="gallery" class="section">
-      <h2>📷 相册 Gallery</h2>
-      <div class="masonry" aria-label="瀑布流图片">
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="毕业照 1"><figcaption>笑容闪闪</figcaption></figure>
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1530092285049-1c42085fd395?q=80&w=1200&auto=format&fit=crop" alt="毕业照 2"><figcaption>与家人</figcaption></figure>
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop" alt="毕业照 3"><figcaption>仪式时刻</figcaption></figure>
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1546778316-dfda79f3e6d6?q=80&w=1200&auto=format&fit=crop" alt="毕业照 4"><figcaption>一路同行</figcaption></figure>
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=1200&auto=format&fit=crop" alt="毕业照 5"><figcaption>鲜花与掌声</figcaption></figure>
-        <figure class="shot"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop" alt="毕业照 6"><figcaption>未来可期</figcaption></figure>
+  <!-- 相册 -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <h2 data-aos="fade-left">回忆相册 · Gallery</h2>
+      <p class="muted" data-aos="fade-left" data-aos-delay="120">替换为你们的合照、毕业典礼、实验室日常等图片。</p>
+      <div class="gallery" data-aos="zoom-in" data-aos-delay="150">
+        <!-- 把 images/* 替换成你的路径；同名 data-title 会显示在 Lightbox 标题 -->
+        <a href="images/grad-1.jpg" data-lightbox="grad" data-title="毕业典礼">
+          <img src="images/grad-1.jpg" alt="毕业典礼" loading="lazy" />
+        </a>
+        <a href="images/grad-2.jpg" data-lightbox="grad" data-title="研究日常">
+          <img src="images/grad-2.jpg" alt="研究日常" loading="lazy" />
+        </a>
+        <a href="images/grad-3.jpg" data-lightbox="grad" data-title="Conference">
+          <img src="images/grad-3.jpg" alt="Conference" loading="lazy" />
+        </a>
+        <a href="images/grad-4.jpg" data-lightbox="grad" data-title="合影">
+          <img src="images/grad-4.jpg" alt="合影" loading="lazy" />
+        </a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      © <span id="year"></span> For <span id="nameFoot">Mingyu</span> · Built with ❤️ on GitHub Pages
-    </footer>
-  </div>
+  <footer>
+    <div class="container">
+      <div>© <span id="year"></span> With love & pride 🫶</div>
+      <div class="muted" style="margin-top:6px;">Made on GitHub Pages · 背景：Vanta.js · 动效：AOS / Typed.js · 相册：Lightbox2</div>
+    </div>
+  </footer>
 
+  <!-- ====== Libraries (from CDN) ====== -->
+  <!-- three.js (Vanta 依赖) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+  <!-- Vanta.js（可把 NET 换成 BIRDS/WAVES/FOG 等效果） -->
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <!-- AOS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <!-- Lightbox2 -->
+  <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+  <!-- CountUp.js -->
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
+
+  <!-- ====== App Script ====== -->
   <script>
-    // 可编辑变量
-    const SISTER = {
-      name: 'Mingyu Song',
-      email: 'your-sister@email.com',
-      cover: 'https://images.unsplash.com/photo-1530092285049-1c42085fd395?q=80&w=1200&auto=format&fit=crop'
-    };
-
-    // 渲染信息
-    document.getElementById('nameBrand').textContent = SISTER.name;
-    document.getElementById('nameTitle').textContent = SISTER.name;
-    document.getElementById('nameFoot').textContent = SISTER.name;
-    document.getElementById('year').textContent = new Date().getFullYear();
-    document.querySelector('.photo').style.backgroundImage = `url('${SISTER.cover}')`;
-    document.getElementById('sendMail').href = `mailto:${SISTER.email}?subject=祝福&body=亲爱的 ${SISTER.name}，`;
-
-    // 彩带
-    const canvas = document.getElementById('confetti');
-    const ctx = canvas.getContext('2d');
-    let W, H; let pieces = []; let running = false; let rafId;
-    function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
-    addEventListener('resize', resize); resize();
-    function spawn(n=160){ for(let i=0;i<n;i++){ pieces.push({x:Math.random()*W,y:-20-Math.random()*H*.5,r:6+Math.random()*10,s:1+Math.random()*2.2,a:Math.random()*Math.PI*2,av:(Math.random()-.5)*.2,hue:180+Math.random()*180}); } }
-    function draw(){ ctx.clearRect(0,0,W,H); for(const p of pieces){ p.y+=p.s; p.x+=Math.sin(p.a)*.8; p.a+=p.av; if(p.y>H+40){ p.y=-20; p.x=Math.random()*W; } ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = `hsl(${p.hue},85%,60%)`; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6); ctx.restore(); } rafId=requestAnimationFrame(draw); }
-    function startConfetti(){ if(running) return; running=true; spawn(200); draw(); setTimeout(stopConfetti, 5000); }
-    function stopConfetti(){ cancelAnimationFrame(rafId); running=false; pieces=[]; ctx.clearRect(0,0,W,H); }
-    document.getElementById('celebrateBtn').addEventListener('click', startConfetti);
-      // ====== 留言墙（GitHub Issues） ======
-    const REPO_OWNER = 'Mila-Song';          // ← 你的 GitHub 用户名
-    const REPO_NAME  = 'mila-song.github.io'; // ← 你的仓库名
-    const LABEL      = 'guestbook';
-
-    // 新建留言（预填标题与内容）
-    const newIssueURL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/new?labels=${encodeURIComponent(LABEL)}&title=${encodeURIComponent('给 '+SISTER.name+' 的毕业祝福')}&body=${encodeURIComponent('在这里写下你的祝福吧～
-
-（可附上一张合影或表情包🥳）')}`;
-    const newIssueBtn = document.getElementById('newIssueBtn');
-    if(newIssueBtn){ newIssueBtn.href = newIssueURL; }
-
-    // 拉取并展示带有 guestbook 标签的公开 Issue
-    async function loadGuestbook(){
-      try{
-        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues?labels=${encodeURIComponent(LABEL)}&state=open&per_page=50`;
-        const res = await fetch(url);
-        if(!res.ok) throw new Error('Failed to fetch issues');
-        const issues = await res.json();
-        const list = document.getElementById('guestbook-list');
-        const empty = document.getElementById('guestbook-empty');
-        list.innerHTML = '';
-        if(!issues.length){ empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        for(const it of issues){
-          const card = document.createElement('div');
-          card.className = 'gitem';
-          const body = (it.body || '').replace(/
-?
-/g,'<br>');
-          card.innerHTML = `
-            <div>${body}</div>
-            <div class="meta">
-              <img class="avatar" src="${it.user?.avatar_url}" alt="avatar"/>
-              <span>@${it.user?.login}</span>
-              <span>·</span>
-              <span>${new Date(it.created_at).toLocaleDateString()}</span>
-              <span>·</span>
-              <a href="${it.html_url}" target="_blank" rel="noopener">查看原文</a>
-            </div>`;
-          list.appendChild(card);
-        }
-      }catch(e){
-        console.warn(e);
-        const empty = document.getElementById('guestbook-empty');
-        empty.textContent = '留言墙加载失败，请稍后再试或直接点击“写下祝福”。';
-        empty.style.display = 'block';
-      }
+    // 1) 背景：Vanta
+    let vantaEffect = null;
+    function initVanta(){
+      if(vantaEffect) vantaEffect.destroy();
+      vantaEffect = VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        points: 12.0,
+        maxDistance: 18.0,
+        spacing: 16.0,
+        color: 0xa78bfa,
+        backgroundAlpha: 0.0 // 透明以显示自定义渐变背景
+      });
     }
-    loadGuestbook();
+
+    // 2) 入场礼花：页面加载自动播放一次
+    function boomConfetti(){
+      const duration = 1600;
+      const end = Date.now() + duration;
+      (function frame(){
+        // 两侧对射
+        confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 } });
+        if(Date.now() < end) requestAnimationFrame(frame);
+      })();
+      // 正中再来一发
+      confetti({
+        particleCount: 220,
+        spread: 90,
+        startVelocity: 48,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // 3) 打字机祝福
+    function initTyped(){
+      new Typed('#typed', {
+        strings: [
+          'Congratulations, <strong>Dr. Mingyu Song</strong>! 🎓',
+          '四年磨一剑，今朝试锋芒 ✨',
+          '愿你保持热爱，奔赴下一场山海 🌊',
+          'Proud of you — today and always 💙'
+        ],
+        typeSpeed: 38,
+        backSpeed: 18,
+        backDelay: 1400,
+        smartBackspace: true,
+        loop: true
+      });
+    }
+
+    // 4) 计数器（替换为真实数字）
+    function initCounters(){
+      const opts = { duration: 2.2, useEasing:true, useGrouping:true, separator: ',', decimal: '.' };
+      new countUp.CountUp('years', 4, opts).start();
+      new countUp.CountUp('papers', 12, opts).start();
+      new countUp.CountUp('talks', 25, opts).start();
+      new countUp.CountUp('coffee', 888, opts).start();
+    }
+
+    // 5) AOS
+    function initAOS(){ AOS.init({ once: true, duration: 700, easing: 'ease-out' }); }
+
+    // 6) 事件绑定
+    function bindEvents(){
+      document.getElementById('btn-confetti').addEventListener('click', boomConfetti);
+      document.getElementById('year').textContent = new Date().getFullYear();
+      window.addEventListener('resize', () => { initVanta(); });
+    }
+
+    // 初始化顺序
+    window.addEventListener('load', () => {
+      initVanta();
+      initTyped();
+      initAOS();
+      initCounters();
+      bindEvents();
+      // 自动播放一次礼花
+      boomConfetti();
+    });
   </script>
 </body>
 </html>
