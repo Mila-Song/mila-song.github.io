@@ -33,6 +33,7 @@
       color:var(--text);
       background:radial-gradient(1200px 600px at 20% -10%, #1a2655 0%, #0b1020 60%, #060913 100%);
       overflow-x:hidden;
+      visibility:hidden; /* 验证前隐藏 */
     }
     a{color:var(--accent)}
     .hero{
@@ -98,85 +99,54 @@
       border:1px solid rgba(167,139,250,.5);
       color:var(--text);
     }
-
-    .section{
-      padding:72px 16px;
-    }
-    .container{
-      width:min(1100px, 92vw);
-      margin:0 auto;
-    }
-    .cards{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap:18px;
-      margin-top:22px;
-    }
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid rgba(148,163,184,.18);
-      border-radius:18px;
-      padding:18px;
-      box-shadow: var(--shadow);
-    }
-    .metric{
-      font-size: clamp(1.8rem, 2.5vw + 1rem, 3rem);
-      font-weight:800;
-      letter-spacing:.02em;
-    }
-    .muted{ color: var(--muted); }
-
-    /* Timeline */
-    .timeline{
-      position:relative;
-      margin: 24px 0 0;
-      padding-left: 24px;
-    }
-    .timeline::before{
-      content:""; position:absolute; left:12px; top:0; bottom:0; width:2px;
-      background: linear-gradient(180deg, rgba(125,211,252,.6), rgba(167,139,250,.6));
-    }
-    .tl-item{
-      position:relative; margin: 0 0 26px 0; padding-left:18px;
-    }
-    .tl-item::before{
-      content:""; position:absolute; left:-2px; top:.4em; width:12px; height:12px; border-radius:50%;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      box-shadow:0 0 0 4px rgba(125,211,252,.15);
-    }
-    .gallery{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:12px;
-    }
-    .gallery a{
-      display:block; border-radius:14px; overflow:hidden; border:1px solid rgba(148,163,184,.18);
-      box-shadow: var(--shadow);
-    }
-    .gallery img{ width:100%; height:220px; object-fit:cover; display:block; }
-
-    footer{
-      padding:48px 16px 72px; text-align:center; color:var(--muted);
-    }
-
-    @media (prefers-color-scheme: light){
-      :root{ --text:#0c1222; --muted:#5d708f; --bg:#f3f6ff; --panel:#ffffff; --card:#ffffff; }
-      body{ background: radial-gradient(1200px 600px at 20% -10%, #e8efff 0%, #f6f8ff 60%, #f3f6ff 100%) }
-      .card{ background:#fff }
-    }
+    .section{padding:72px 16px;}
+    .container{width:min(1100px, 92vw);margin:0 auto;}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+    .gallery a{display:block;border-radius:14px;overflow:hidden;border:1px solid rgba(148,163,184,.18);box-shadow: var(--shadow);}
+    .gallery img{width:100%;height:220px;object-fit:cover;display:block;}
+    footer{padding:48px 16px 72px;text-align:center;color:var(--muted);}
   </style>
 </head>
+
 <body>
-  <!-- 动态背景挂载容器 -->
+
+  <!-- ============ 🔒 密码验证脚本（方案1） ============ -->
+  <script>
+  (function () {
+    const ACCESS_CODE = "mingyu2025";        // 你可以改这个口令
+    const SESSION_KEY = "__page_passed_v1";
+
+    function deny() {
+      document.documentElement.innerHTML =
+        '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Access Denied</title></head>' +
+        '<body style="font-family:system-ui;display:grid;place-items:center;height:100vh;background:#0b1020;color:#eaf2ff">' +
+        '<div style="text-align:center"><h2>Access Denied 🚫</h2><p>Wrong or missing access code.</p></div></body>';
+    }
+
+    if (sessionStorage.getItem(SESSION_KEY) === "1") {
+      document.body.style.visibility = "visible";
+      return;
+    }
+
+    const input = prompt("🔒 This page is private. Please enter the access code:");
+    if (input === ACCESS_CODE) {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      document.body.style.visibility = "visible";
+    } else {
+      deny();
+    }
+  })();
+  </script>
+  <!-- ============================================= -->
+
+  <!-- 动态背景 -->
   <div id="vanta-bg"></div>
 
-  <!-- 主视觉 -->
   <header class="hero">
     <div class="hero-inner" data-aos="zoom-in" data-aos-duration="900">
       <span class="badge">🎓 Doctoral Graduation · 荣耀时刻</span>
       <h1>恭喜毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
       <div class="typed" id="typed"></div>
-
       <div class="cta">
         <button class="btn" id="btn-confetti">🎉 再来一发礼花</button>
         <a class="btn ghost" href="#gallery">📸 浏览相册</a>
@@ -184,80 +154,16 @@
     </div>
   </header>
 
-  <!-- 亮点指标 -->
-<!--   <section class="section">
-    <div class="container">
-      <h2 data-aos="fade-up">一路走来 · 高光时刻</h2>
-      <p class="muted" data-aos="fade-up" data-aos-delay="120">用数字记录这段非凡旅程。</p>
-      <div class="cards">
-        <div class="card" data-aos="fade-up" data-aos-delay="0">
-          <div class="metric" id="years">0</div>
-          <div class="muted">年坚持与成长</div>
-        </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="80">
-          <div class="metric" id="papers">0</div>
-          <div class="muted">篇论文/作品</div>
-        </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="160">
-          <div class="metric" id="talks">0</div>
-          <div class="muted">次报告/展示</div>
-        </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="240">
-          <div class="metric" id="coffee">0</div>
-          <div class="muted">杯咖啡（大概😅）</div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
-  <!-- 时间轴 -->
-<!--   <section class="section">
-    <div class="container">
-      <h2 data-aos="fade-right">PhD里程碑 · Timeline</h2>
-      <div class="timeline">
-        <div class="tl-item card" data-aos="fade-up">
-          <h3>2022 · 起点</h3>
-          <p class="muted">进入澳洲啦。</p>
-        </div>
-        <div class="tl-item card" data-aos="fade-up" data-aos-delay="100">
-          <h3>2022 · 初露锋芒</h3>
-          <p class="muted">第一篇顶会/顶刊录用，迈出关键一步。</p>
-        </div>
-        <div class="tl-item card" data-aos="fade-up" data-aos-delay="200">
-          <h3>2023 · 乘风破浪</h3>
-          <p class="muted">合作与出访，拓展视野与边界。</p>
-        </div>
-        <div class="tl-item card" data-aos="fade-up" data-aos-delay="300">
-          <h3>2024 · 厚积薄发</h3>
-          <p class="muted">多项成果落地，攻克难题。</p>
-        </div>
-        <div class="tl-item card" data-aos="fade-up" data-aos-delay="400">
-          <h3>2025 · Viva 通过</h3>
-          <p class="muted">答辩顺利，博士加冕！</p>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
   <!-- 相册 -->
   <section class="section" id="gallery">
     <div class="container">
       <h2 data-aos="fade-left">回忆相册 · Gallery</h2>
       <p class="muted" data-aos="fade-left" data-aos-delay="120">替换为你们的合照、毕业典礼、实验室日常等图片。</p>
       <div class="gallery" data-aos="zoom-in" data-aos-delay="150">
-        <!-- 把 images/* 替换成你的路径；同名 data-title 会显示在 Lightbox 标题 -->
-        <a href="images/grad-1.jpg" data-lightbox="grad" data-title="毕业典礼">
-          <img src="images/grad-1.jpg" alt="毕业典礼" loading="lazy" />
-        </a>
-        <a href="images/grad-2.jpg" data-lightbox="grad" data-title="研究日常">
-          <img src="images/grad-2.jpg" alt="研究日常" loading="lazy" />
-        </a>
-        <a href="images/grad-3.jpg" data-lightbox="grad" data-title="Conference">
-          <img src="images/grad-3.jpg" alt="Conference" loading="lazy" />
-        </a>
-        <a href="images/grad-4.jpg" data-lightbox="grad" data-title="合影">
-          <img src="images/grad-4.jpg" alt="合影" loading="lazy" />
-        </a>
+        <a href="images/grad-1.jpg" data-lightbox="grad" data-title="毕业典礼"><img src="images/grad-1.jpg" alt="毕业典礼" loading="lazy" /></a>
+        <a href="images/grad-2.jpg" data-lightbox="grad" data-title="研究日常"><img src="images/grad-2.jpg" alt="研究日常" loading="lazy" /></a>
+        <a href="images/grad-3.jpg" data-lightbox="grad" data-title="Conference"><img src="images/grad-3.jpg" alt="Conference" loading="lazy" /></a>
+        <a href="images/grad-4.jpg" data-lightbox="grad" data-title="合影"><img src="images/grad-4.jpg" alt="合影" loading="lazy" /></a>
       </div>
     </div>
   </section>
@@ -269,26 +175,16 @@
     </div>
   </footer>
 
-  <!-- ====== Libraries (from CDN) ====== -->
-  <!-- three.js (Vanta 依赖) -->
+  <!-- JS库 -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
-  <!-- Vanta.js（可把 NET 换成 BIRDS/WAVES/FOG 等效果） -->
   <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
-
-  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-  <!-- Typed.js -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
-  <!-- AOS -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
-  <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
-  <!-- CountUp.js -->
-  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
 
-  <!-- ====== App Script ====== -->
   <script>
-    // 1) 背景：Vanta
+    // 背景
     let vantaEffect = null;
     function initVanta(){
       if(vantaEffect) vantaEffect.destroy();
@@ -296,7 +192,6 @@
         el: "#vanta-bg",
         mouseControls: true,
         touchControls: true,
-        gyroControls: false,
         minHeight: 200.00,
         minWidth: 200.00,
         scale: 1.00,
@@ -305,30 +200,23 @@
         maxDistance: 18.0,
         spacing: 16.0,
         color: 0xa78bfa,
-        backgroundAlpha: 0.0 // 透明以显示自定义渐变背景
+        backgroundAlpha: 0.0
       });
     }
 
-    // 2) 入场礼花：页面加载自动播放一次
+    // 礼花
     function boomConfetti(){
       const duration = 1600;
       const end = Date.now() + duration;
       (function frame(){
-        // 两侧对射
         confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 } });
         confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 } });
         if(Date.now() < end) requestAnimationFrame(frame);
       })();
-      // 正中再来一发
-      confetti({
-        particleCount: 220,
-        spread: 90,
-        startVelocity: 48,
-        origin: { y: 0.6 }
-      });
+      confetti({ particleCount: 220, spread: 90, startVelocity: 48, origin: { y: 0.6 } });
     }
 
-    // 3) 打字机祝福
+    // 打字机祝福
     function initTyped(){
       new Typed('#typed', {
         strings: [
@@ -360,37 +248,26 @@
         backSpeed: 18,
         backDelay: 1400,
         smartBackspace: true,
-        loop: true
+        loop: true,
+        contentType: 'html'
       });
     }
 
-    // 4) 计数器（替换为真实数字）
-    function initCounters(){
-      const opts = { duration: 2.2, useEasing:true, useGrouping:true, separator: ',', decimal: '.' };
-      new countUp.CountUp('years', 4, opts).start();
-      new countUp.CountUp('papers', 12, opts).start();
-      new countUp.CountUp('talks', 25, opts).start();
-      new countUp.CountUp('coffee', 888, opts).start();
-    }
-
-    // 5) AOS
+    // AOS
     function initAOS(){ AOS.init({ once: true, duration: 700, easing: 'ease-out' }); }
 
-    // 6) 事件绑定
+    // 绑定事件
     function bindEvents(){
       document.getElementById('btn-confetti').addEventListener('click', boomConfetti);
       document.getElementById('year').textContent = new Date().getFullYear();
-      window.addEventListener('resize', () => { initVanta(); });
+      window.addEventListener('resize', initVanta);
     }
 
-    // 初始化顺序
     window.addEventListener('load', () => {
       initVanta();
       initTyped();
       initAOS();
-      initCounters();
       bindEvents();
-      // 自动播放一次礼花
       boomConfetti();
     });
   </script>
