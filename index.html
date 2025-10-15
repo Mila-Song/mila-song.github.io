@@ -13,6 +13,10 @@
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet" />
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <!-- Masonry & imagesLoaded（确保排布在图片加载后进行） -->
+  <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
 
   <style>
     :root{
@@ -101,9 +105,46 @@
     }
     .section{padding:72px 16px;}
     .container{width:min(1100px, 92vw);margin:0 auto;}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
-    .gallery a{display:block;border-radius:14px;overflow:hidden;border:1px solid rgba(148,163,184,.18);box-shadow: var(--shadow);}
-    .gallery img{width:100%;height:220px;object-fit:cover;display:block;}
+    /* --- Masonry 瀑布流 + 漂亮悬停 --- */
+    .gallery{
+      margin-top: 12px;
+    }
+    .gallery a{
+      position: relative;
+      display:block;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow: var(--shadow);
+      transition: transform .28s ease, filter .28s ease, box-shadow .28s ease;
+      will-change: transform;
+    }
+    .gallery a:hover{
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.06) contrast(1.06);
+      box-shadow: 0 12px 38px rgba(0,0,0,.28);
+    }
+    .gallery img{
+      width:100%;
+      height:auto;          /* 让 Masonry 按真实高度排布 */
+      display:block;
+      object-fit:cover;
+      transition: transform .4s ease;
+    }
+    .gallery a:hover img{
+      transform: scale(1.06);
+    }
+
+    /* 可选：分组标题更有“章节感” */
+    .photo-group h3{
+      margin:40px 0 12px;
+      font-weight:800;
+      color:var(--accent-2);
+      letter-spacing:.02em;
+      border-left:4px solid var(--accent);
+      padding-left:10px;
+    }
+
     footer{padding:48px 16px 72px;text-align:center;color:var(--muted);}
   </style>
 </head>
@@ -144,8 +185,8 @@
 
   <header class="hero">
     <div class="hero-inner" data-aos="zoom-in" data-aos-duration="900">
-      <span class="badge">🎓 Doctoral Graduation · 荣耀时刻</span>
-      <h1>恭喜毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
+      <span class="badge">🎓 Doctoral Graduation · The Moment of Light</span>
+      <h1>恭喜博士毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
       <div class="typed" id="typed"></div>
       <div class="cta">
         <button class="btn" id="btn-confetti">🎉 再来一发礼花</button>
@@ -157,17 +198,60 @@
   <!-- 相册 -->
   <section class="section" id="gallery">
     <div class="container">
-      <h2 data-aos="fade-left">回忆相册 · Gallery</h2>
-      <p class="muted" data-aos="fade-left" data-aos-delay="120">替换为你们的合照、毕业典礼、实验室日常等图片。</p>
-      <div class="gallery" data-aos="zoom-in" data-aos-delay="150">
-        <a href="images/grad-1.jpg" data-lightbox="grad" data-title="毕业典礼"><img src="images/grad-1.jpg" alt="毕业典礼" loading="lazy" /></a>
-        <a href="images/grad-2.jpg" data-lightbox="grad" data-title="研究日常"><img src="images/grad-2.jpg" alt="研究日常" loading="lazy" /></a>
-        <a href="images/grad-3.jpg" data-lightbox="grad" data-title="Conference"><img src="images/grad-3.jpg" alt="Conference" loading="lazy" /></a>
-        <a href="images/grad-4.jpg" data-lightbox="grad" data-title="合影"><img src="images/grad-4.jpg" alt="合影" loading="lazy" /></a>
+      <h2 data-aos="fade-left">🌸 所有故事都被时间妥帖安放</h2>
+      <p class="muted" data-aos="fade-left" data-aos-delay="120">
+        有些瞬间虽远，却始终温暖。
+      </p>
+
+      <!-- 分组 1：Early Days -->
+      <div class="photo-group">
+        <h3 data-aos="fade-up">📖 Early Research Days</h3>
+        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
+          <a href="images/grad-1.jpg" data-lightbox="grad" data-title="初到实验室">
+            <img src="images/grad-1.jpg" alt="初到实验室" loading="lazy" />
+          </a>
+          <a href="images/grad-2.jpg" data-lightbox="grad" data-title="第一次海报展示">
+            <img src="images/grad-2.jpg" alt="第一次海报展示" loading="lazy" />
+          </a>
+          <a href="images/grad-3.jpg" data-lightbox="grad" data-title="清晨的自习室">
+            <img src="images/grad-3.jpg" alt="清晨的自习室" loading="lazy" />
+          </a>
+        </div>
+      </div>
+
+      <!-- 分组 2：Conferences -->
+      <div class="photo-group">
+        <h3 data-aos="fade-up">🌍 Conferences & Visits</h3>
+        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
+          <a href="images/grad-4.jpg" data-lightbox="grad" data-title="第一次口头报告">
+            <img src="images/grad-4.jpg" alt="第一次口头报告" loading="lazy" />
+          </a>
+          <a href="images/grad-5.jpg" data-lightbox="grad" data-title="同伴们的掌声">
+            <img src="images/grad-5.jpg" alt="同伴们的掌声" loading="lazy" />
+          </a>
+          <a href="images/grad-6.jpg" data-lightbox="grad" data-title="城市与夜色">
+            <img src="images/grad-6.jpg" alt="城市与夜色" loading="lazy" />
+          </a>
+        </div>
+      </div>
+
+      <!-- 分组 3：Graduation Day -->
+      <div class="photo-group">
+        <h3 data-aos="fade-up">🎓 Graduation Moments</h3>
+        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
+          <a href="images/grad-7.jpg" data-lightbox="grad" data-title="学位服与笑容">
+            <img src="images/grad-7.jpg" alt="学位服与笑容" loading="lazy" />
+          </a>
+          <a href="images/grad-8.jpg" data-lightbox="grad" data-title="家人的拥抱">
+            <img src="images/grad-8.jpg" alt="家人的拥抱" loading="lazy" />
+          </a>
+          <a href="images/grad-9.jpg" data-lightbox="grad" data-title="合影留念">
+            <img src="images/grad-9.jpg" alt="合影留念" loading="lazy" />
+          </a>
+        </div>
       </div>
     </div>
   </section>
-
   <footer>
     <div class="container">
       <div>© <span id="year"></span> With love & pride 🫶</div>
@@ -270,6 +354,27 @@
       bindEvents();
       boomConfetti();
     });
+
+
+  window.addEventListener('load', () => {
+    initVanta();
+    initTyped();
+    initAOS();
+
+    // === Masonry 初始化：对页面上每个 .gallery 启用瀑布流 ===
+    document.querySelectorAll('.gallery').forEach(function(grid){
+      imagesLoaded(grid, function(){
+        new Masonry(grid, {
+          itemSelector: 'a',        // 每个图片项就是 <a>
+          percentPosition: true,
+          gutter: 10                 // 图片间距
+        });
+      });
+    });
+
+    bindEvents();
+    boomConfetti();
+  });
   </script>
 </body>
 </html>
