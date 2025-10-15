@@ -13,9 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet" />
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <!-- Masonry & imagesLoaded（确保排布在图片加载后进行） -->
-  <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
 
 
   <style>
@@ -105,35 +103,92 @@
     }
     .section{padding:72px 16px;}
     .container{width:min(1100px, 92vw);margin:0 auto;}
-    /* --- Masonry 瀑布流 + 漂亮悬停 --- */
-    .gallery{
-      margin-top: 12px;
+   
+    /* —— 升级版相册：多列网格 + 3D 倾斜 + 玻璃浮层 + 模糊占位 —— */
+    .gallery {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      margin-top: 14px;
     }
-    .gallery a{
+
+    .gallery a {
       position: relative;
-      display:block;
-      border-radius:14px;
-      overflow:hidden;
-      border:1px solid rgba(148,163,184,.18);
+      display: block;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,.18);
       box-shadow: var(--shadow);
-      transition: transform .28s ease, filter .28s ease, box-shadow .28s ease;
+      aspect-ratio: 4 / 3;                  /* 正方形可改 1 / 1 */
+      transform-style: preserve-3d;         /* 让 tilt 有立体感 */
       will-change: transform;
+      transition: box-shadow .25s ease, filter .25s ease, transform .25s ease;
     }
-    .gallery a:hover{
-      transform: translateY(-3px) scale(1.02);
+
+    .gallery a:hover {
       filter: brightness(1.06) contrast(1.06);
-      box-shadow: 0 12px 38px rgba(0,0,0,.28);
+      box-shadow: 0 14px 40px rgba(0,0,0,.28);
     }
-    .gallery img{
-      width:100%;
-      height:auto;          /* 让 Masonry 按真实高度排布 */
-      display:block;
-      object-fit:cover;
-      transition: transform .4s ease;
+
+    .gallery a img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: translateZ(20px) scale(1.001); /* 让图片在 3D 层上更立体 */
+      transition: transform .35s ease, filter .35s ease, opacity .35s ease;
     }
-    .gallery a:hover img{
-      transform: scale(1.06);
+
+    /* Blur-up：小图先模糊、加载清晰图后去模糊 */
+    .gallery a img.blur-up {
+      filter: blur(12px);
+      transform: translateZ(20px) scale(1.02);
     }
+    .gallery a img.loaded {
+      filter: blur(0);
+      transform: translateZ(20px) scale(1.0);
+    }
+
+    /* 玻璃浮层（标题/说明） */
+    .gallery .cap {
+      position: absolute; left: 8px; right: 8px; bottom: 8px;
+      padding: 8px 10px;
+      font-size: .9rem;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(15,23,42,.05), rgba(15,23,42,.25));
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 10px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .gallery a:hover .cap { opacity: 1; transform: translateY(0); }
+
+    /* 顶部滤镜按钮 */
+    .gallery-filter {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin: 14px 0 6px;
+    }
+    .gf-btn {
+      padding: 6px 12px; border-radius: 999px;
+      border: 1px solid rgba(125,211,252,.45);
+      background: rgba(125,211,252,.08);
+      color: var(--accent);
+      cursor: pointer;
+      font-size: .92rem;
+      transition: transform .08s ease, background .25s ease, color .25s ease;
+    }
+    .gf-btn:hover { transform: translateY(-1px); }
+    .gf-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #051018; border-color: transparent;
+    }
+
+    /* 手机双列（保证“多张一排”观感） */
+    @media (max-width: 480px) {
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+
+
 
     /* 可选：分组标题更有“章节感” */
     .photo-group h3{
@@ -185,73 +240,80 @@
 
   <header class="hero">
     <div class="hero-inner" data-aos="zoom-in" data-aos-duration="900">
-      <span class="badge">🎓 Doctoral Graduation · The Moment of Light</span>
+      <span class="badge">🎓 Doctoral Graduation · Moment of Light</span>
       <h1>恭喜博士毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
       <div class="typed" id="typed"></div>
       <div class="cta">
-        <button class="btn" id="btn-confetti">🎉 再来一发礼花</button>
-        <a class="btn ghost" href="#gallery">📸 浏览相册</a>
+        <button class="btn" id="btn-confetti">🎉 再来庆祝一下</button>
+        <a class="btn ghost" href="#gallery">📸 快来看看我</a>
       </div>
     </div>
   </header>
 
-  <!-- 相册 -->
   <section class="section" id="gallery">
-    <div class="container">
-      <h2 data-aos="fade-left">🌸 所有故事都被时间妥帖安放</h2>
-      <p class="muted" data-aos="fade-left" data-aos-delay="120">
-        有些瞬间虽远，却始终温暖。
-      </p>
+  <div class="container">
+    <h2 data-aos="fade-left">🌸 所有故事都被时间妥帖安放</h2>
+    <p class="muted" data-aos="fade-left" data-aos-delay="120">
+      有些瞬间虽远，却始终温暖。
+    </p>
 
-      <!-- 分组 1：Early Days -->
-      <div class="photo-group">
-        <h3 data-aos="fade-up">📖 Early Research Days</h3>
-        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
-          <a href="images/grad-1.jpg" data-lightbox="grad" data-title="初到实验室">
-            <img src="images/grad-1.jpg" alt="初到实验室" loading="lazy" />
-          </a>
-          <a href="images/grad-2.jpg" data-lightbox="grad" data-title="第一次海报展示">
-            <img src="images/grad-2.jpg" alt="第一次海报展示" loading="lazy" />
-          </a>
-          <a href="images/grad-3.jpg" data-lightbox="grad" data-title="清晨的自习室">
-            <img src="images/grad-3.jpg" alt="清晨的自习室" loading="lazy" />
-          </a>
-        </div>
-      </div>
-
-      <!-- 分组 2：Conferences -->
-      <div class="photo-group">
-        <h3 data-aos="fade-up">🌍 Conferences & Visits</h3>
-        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
-          <a href="images/grad-4.jpg" data-lightbox="grad" data-title="第一次口头报告">
-            <img src="images/grad-4.jpg" alt="第一次口头报告" loading="lazy" />
-          </a>
-          <a href="images/grad-5.jpg" data-lightbox="grad" data-title="同伴们的掌声">
-            <img src="images/grad-5.jpg" alt="同伴们的掌声" loading="lazy" />
-          </a>
-          <a href="images/grad-6.jpg" data-lightbox="grad" data-title="城市与夜色">
-            <img src="images/grad-6.jpg" alt="城市与夜色" loading="lazy" />
-          </a>
-        </div>
-      </div>
-
-      <!-- 分组 3：Graduation Day -->
-      <div class="photo-group">
-        <h3 data-aos="fade-up">🎓 Graduation Moments</h3>
-        <div class="gallery" data-aos="fade-up" data-aos-delay="80">
-          <a href="images/grad-7.jpg" data-lightbox="grad" data-title="学位服与笑容">
-            <img src="images/grad-7.jpg" alt="学位服与笑容" loading="lazy" />
-          </a>
-          <a href="images/grad-8.jpg" data-lightbox="grad" data-title="家人的拥抱">
-            <img src="images/grad-8.jpg" alt="家人的拥抱" loading="lazy" />
-          </a>
-          <a href="images/grad-9.jpg" data-lightbox="grad" data-title="合影留念">
-            <img src="images/grad-9.jpg" alt="合影留念" loading="lazy" />
-          </a>
-        </div>
-      </div>
+    <!-- 筛选按钮 -->
+    <div class="gallery-filter" data-aos="fade-up" data-aos-delay="50">
+      <button class="gf-btn active" data-filter="*">All</button>
+      <button class="gf-btn" data-filter="research">Research</button>
+      <button class="gf-btn" data-filter="conf">Conference</button>
+      <button class="gf-btn" data-filter="grad">Graduation</button>
+      <button class="gf-btn" data-filter="dogs">Dogs</button>
     </div>
-  </section>
+
+    <div class="gallery" data-aos="fade-up" data-aos-delay="80">
+      <!-- Research -->
+      <a href="images/grad-1.jpg" data-lightbox="grad" data-title="清晨的自习室" data-group="research" class="tilt">
+        <img class="blur-up" src="images/grad-1.jpg" alt="清晨的自习室" loading="lazy" />
+        <span class="cap">清晨的自习室 · The quiet before the storm</span>
+      </a>
+
+      <a href="images/grad-2.jpg" data-lightbox="grad" data-title="实验中的微光" data-group="research" class="tilt">
+        <img class="blur-up" src="images/grad-2.jpg" alt="实验中的微光" loading="lazy" />
+        <span class="cap">实验中的微光 · Little lights, big dreams</span>
+      </a>
+
+      <!-- Conference -->
+      <a href="images/grad-3.jpg" data-lightbox="grad" data-title="第一次海报展示" data-group="conf" class="tilt">
+        <img class="blur-up" src="images/grad-3.jpg" alt="第一次海报展示" loading="lazy" />
+        <span class="cap">第一次海报展示 · First poster, first cheer</span>
+      </a>
+
+      <a href="images/grad-4.jpg" data-lightbox="grad" data-title="口头报告" data-group="conf" class="tilt">
+        <img class="blur-up" src="images/grad-4.jpg" alt="口头报告" loading="lazy" />
+        <span class="cap">口头报告 · Speak your light</span>
+      </a>
+
+      <!-- Graduation -->
+      <a href="images/grad-5.jpg" data-lightbox="grad" data-title="学位服与笑容" data-group="grad" class="tilt">
+        <img class="blur-up" src="images/grad-5.jpg" alt="学位服与笑容" loading="lazy" />
+        <span class="cap">学位服与笑容 · Crowned in light</span>
+      </a>
+
+      <a href="images/grad-6.jpg" data-lightbox="grad" data-title="家人的拥抱" data-group="grad" class="tilt">
+        <img class="blur-up" src="images/grad-6.jpg" alt="家人的拥抱" loading="lazy" />
+        <span class="cap">家人的拥抱 · All the love</span>
+      </a>
+
+      <!-- Dogs -->
+      <a href="images/grad-7.jpg" data-lightbox="grad" data-title="Vesper 的祝贺" data-group="dogs" class="tilt">
+        <img class="blur-up" src="images/grad-7.jpg" alt="Vesper 的祝贺" loading="lazy" />
+        <span class="cap">Vesper 的祝贺 · Tail-wagging applause</span>
+      </a>
+
+      <a href="images/grad-8.jpg" data-lightbox="grad" data-title="操场自由跑" data-group="dogs" class="tilt">
+        <img class="blur-up" src="images/grad-8.jpg" alt="操场自由跑" loading="lazy" />
+        <span class="cap">自由跑 · Joy at full speed</span>
+      </a>
+    </div>
+  </div>
+</section>
+
   <footer>
     <div class="container">
       <div>© <span id="year"></span> With love & pride 🫶</div>
@@ -346,8 +408,55 @@
       document.getElementById('year').textContent = new Date().getFullYear();
       window.addEventListener('resize', initVanta);
     }
+      // 1) 3D 轻微倾斜（只给 .tilt）
+    function initTilt(){
+      const cards = document.querySelectorAll('.tilt');
+      if(cards.length){
+        VanillaTilt.init(cards, {
+          max: 6,           // 最大倾斜角
+          speed: 400,
+          glare: true,      // 玻璃高光
+          "max-glare": 0.15
+        });
+      }
+    }
+
+    // 2) Blur-up：图片加载完成后去模糊
+    function initBlurUp(){
+      document.querySelectorAll('.gallery img.blur-up').forEach(img=>{
+        if (img.complete) {
+          img.classList.remove('blur-up'); img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', ()=>{
+            img.classList.remove('blur-up'); img.classList.add('loaded');
+          });
+        }
+      });
+    }
+
+    // 3) 轻量分组筛选
+    function initFilter(){
+      const buttons = document.querySelectorAll('.gf-btn');
+      const items = document.querySelectorAll('.gallery a');
+
+      buttons.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          buttons.forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          const f = btn.dataset.filter;
+
+          items.forEach(it=>{
+            const show = (f === '*') || (it.dataset.group === f);
+            it.style.display = show ? '' : 'none';
+          });
+        });
+      });
+    }
 
     window.addEventListener('load', () => {
+      initTilt();
+      initBlurUp();
+      initFilter();
       initVanta();
       initTyped();
       initAOS();
@@ -357,23 +466,27 @@
 
 
   window.addEventListener('load', () => {
+    initTilt();
+    initBlurUp();
+    initFilter();
     initVanta();
     initTyped();
     initAOS();
 
-    // === Masonry 初始化：对页面上每个 .gallery 启用瀑布流 ===
-    document.querySelectorAll('.gallery').forEach(function(grid){
-      imagesLoaded(grid, function(){
-        new Masonry(grid, {
-          itemSelector: 'a',        // 每个图片项就是 <a>
-          percentPosition: true,
-          gutter: 10                 // 图片间距
-        });
-      });
-    });
 
     bindEvents();
     boomConfetti();
+  });
+
+  // 缩略图加载失败时，自动退回到 href 指向的大图
+  document.querySelectorAll('.gallery a').forEach(a=>{
+    const img = a.querySelector('img');
+    if (!img) return;
+    img.addEventListener('error', ()=>{
+      img.src = a.getAttribute('href');   // 用大图作为展示
+      img.classList.remove('blur-up');
+      img.classList.add('loaded');
+    });
   });
   </script>
 </body>
