@@ -6,6 +6,8 @@
   <title>🎓 博士毕业快乐 | Dr. Mingyu Song</title>
   <meta name="description" content="为博士毕业喝彩的庆祝与展示页面。" />
   <meta name="color-scheme" content="light dark" />
+
+  <!-- 仅保留必要的 CDN 预连接 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
@@ -14,7 +16,6 @@
   <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
-
 
   <style>
     :root{
@@ -47,157 +48,79 @@
       padding:96px 16px 64px;
       isolation:isolate;
     }
-    #vanta-bg{
-      position:absolute; inset:0; z-index:-1;
-    }
-    .hero-inner{
-      max-width: 1100px;
-      width: 100%;
-      padding: 24px;
-    }
+    #vanta-bg{ position:absolute; inset:0; z-index:-1; }
+    .hero-inner{ max-width: 1100px; width: 100%; padding: 24px; }
     .badge{
-      display:inline-block;
-      padding:.4rem .7rem;
-      border:1px solid rgba(125,211,252,.45);
-      border-radius:999px;
-      color:var(--accent);
-      background:rgba(125,211,252,.08);
-      backdrop-filter: blur(6px);
-      font-size:.9rem;
-      letter-spacing:.04em;
+      display:inline-block; padding:.4rem .7rem; border:1px solid rgba(125,211,252,.45);
+      border-radius:999px; color:var(--accent); background:rgba(125,211,252,.08); backdrop-filter: blur(6px);
+      font-size:.9rem; letter-spacing:.04em;
     }
     h1{
-      margin:18px 0 6px;
-      font-weight:800;
-      font-size: clamp(2rem, 4vw + 1rem, 4rem);
-      line-height:1.05;
-      letter-spacing:.01em;
-      text-shadow: 0 2px 30px rgba(124, 58, 237, .25);
+      margin:18px 0 6px; font-weight:800; font-size: clamp(2rem, 4vw + 1rem, 4rem);
+      line-height:1.05; letter-spacing:.01em; text-shadow: 0 2px 30px rgba(124,58,237,.25);
     }
-    .typed{
-      font-size: clamp(1.05rem, 1vw + .8rem, 1.4rem);
-      color:var(--muted);
-      min-height:2.2em;
-    }
-    .cta{
-      margin-top:28px;
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
+    .typed{ font-size: clamp(1.05rem, 1vw + .8rem, 1.4rem); color:var(--muted); min-height:2.2em; }
+    .cta{ margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
     .btn{
-      appearance:none;border:0;cursor:pointer;
-      padding:12px 18px;border-radius:999px;
-      font-weight:600;
-      background: linear-gradient(135deg,var(--accent),var(--accent-2));
-      color:#051018;
-      box-shadow: var(--shadow);
+      appearance:none;border:0;cursor:pointer;padding:12px 18px;border-radius:999px;font-weight:600;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2)); color:#051018; box-shadow: var(--shadow);
       transition: transform .06s ease;
     }
     .btn:active{ transform: translateY(1px) scale(.99); }
-    .btn.ghost{
-      background:transparent;
-      border:1px solid rgba(167,139,250,.5);
-      color:var(--text);
-    }
+    .btn.ghost{ background:transparent; border:1px solid rgba(167,139,250,.5); color:var(--text); }
     .section{padding:72px 16px;}
     .container{width:min(1100px, 92vw);margin:0 auto;}
-   
-    /* —— 升级版相册：多列网格 + 3D 倾斜 + 玻璃浮层 + 模糊占位 —— */
-    .gallery {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      margin-top: 14px;
-    }
 
+    /* 相册 */
+    .gallery {
+      display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 14px;
+    }
     .gallery a {
-      position: relative;
-      display: block;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,.18);
-      box-shadow: var(--shadow);
-      aspect-ratio: 4 / 3;                  /* 正方形可改 1 / 1 */
-      transform-style: preserve-3d;         /* 让 tilt 有立体感 */
-      will-change: transform;
+      position: relative; display: block; border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(148,163,184,.18); box-shadow: var(--shadow);
+      aspect-ratio: 4 / 3; transform-style: preserve-3d; will-change: transform;
       transition: box-shadow .25s ease, filter .25s ease, transform .25s ease;
     }
-
-    .gallery a:hover {
-      filter: brightness(1.06) contrast(1.06);
-      box-shadow: 0 14px 40px rgba(0,0,0,.28);
-    }
+    .gallery a:hover { filter: brightness(1.06) contrast(1.06); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
 
     .gallery a img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transform: translateZ(20px) scale(1.001); /* 让图片在 3D 层上更立体 */
-      transition: transform .35s ease, filter .35s ease, opacity .35s ease;
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transform: translateZ(20px) scale(1.001); transition: transform .35s ease, filter .35s ease, opacity .35s ease;
     }
 
-    /* Blur-up：小图先模糊、加载清晰图后去模糊 */
-    .gallery a img.blur-up {
-      filter: blur(12px);
-      transform: translateZ(20px) scale(1.02);
-    }
-    .gallery a img.loaded {
-      filter: blur(0);
-      transform: translateZ(20px) scale(1.0);
+    /* Blur-up：占位 -> 清晰 */
+    .gallery a img.blur-up { filter: blur(12px); transform: translateZ(20px) scale(1.02); }
+    .gallery a img.loaded  { filter: blur(0);    transform: translateZ(20px) scale(1.0); }
+
+    /* 占位背景（当还没加载真实图时视觉更舒服） */
+    .placeholder {
+      background: linear-gradient(135deg, rgba(125,211,252,.12), rgba(167,139,250,.12));
     }
 
-    /* 玻璃浮层（标题/说明） */
-    .gallery .cap {
-      position: absolute; left: 8px; right: 8px; bottom: 8px;
-      padding: 8px 10px;
-      font-size: .9rem;
-      color: var(--text);
-      background: linear-gradient(180deg, rgba(15,23,42,.05), rgba(15,23,42,.25));
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(148,163,184,.22);
-      border-radius: 10px;
-      opacity: 0; transform: translateY(8px);
+    /* 玻璃浮层 */
+    .gallery .cap{
+      position: absolute; left: 8px; right: 8px; bottom: 8px; padding: 8px 10px; font-size: .9rem; color: var(--text);
+      background: linear-gradient(180deg, rgba(15,23,42,.05), rgba(15,23,42,.25)); backdrop-filter: blur(8px);
+      border: 1px solid rgba(148,163,184,.22); border-radius: 10px; opacity: 0; transform: translateY(8px);
       transition: opacity .25s ease, transform .25s ease;
     }
     .gallery a:hover .cap { opacity: 1; transform: translateY(0); }
 
-    /* 顶部滤镜按钮 */
-    .gallery-filter {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin: 14px 0 6px;
-    }
-    .gf-btn {
-      padding: 6px 12px; border-radius: 999px;
-      border: 1px solid rgba(125,211,252,.45);
-      background: rgba(125,211,252,.08);
-      color: var(--accent);
-      cursor: pointer;
-      font-size: .92rem;
+    /* 筛选 */
+    .gallery-filter { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
+    .gf-btn{
+      padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(125,211,252,.45);
+      background: rgba(125,211,252,.08); color: var(--accent); cursor: pointer; font-size: .92rem;
       transition: transform .08s ease, background .25s ease, color .25s ease;
     }
     .gf-btn:hover { transform: translateY(-1px); }
-    .gf-btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #051018; border-color: transparent;
-    }
+    .gf-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #051018; border-color: transparent; }
 
-    /* 手机双列（保证“多张一排”观感） */
-    @media (max-width: 480px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 480px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
 
-
-
-    /* 可选：分组标题更有“章节感” */
     .photo-group h3{
-      margin:40px 0 12px;
-      font-weight:800;
-      color:var(--accent-2);
-      letter-spacing:.02em;
-      border-left:4px solid var(--accent);
-      padding-left:10px;
+      margin:40px 0 12px; font-weight:800; color:var(--accent-2); letter-spacing:.02em;
+      border-left:4px solid var(--accent); padding-left:10px;
     }
 
     footer{padding:48px 16px 72px;text-align:center;color:var(--muted);}
@@ -205,35 +128,25 @@
 </head>
 
 <body>
-
-  <!-- ============ 🔒 密码验证脚本（方案1） ============ -->
+  <!-- 🔒 密码验证 -->
   <script>
   (function () {
-    const ACCESS_CODE = "19950121";        // 你可以改这个口令
+    const ACCESS_CODE = "19950121";
     const SESSION_KEY = "__page_passed_v1";
-
     function deny() {
       document.documentElement.innerHTML =
         '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Access Denied</title></head>' +
         '<body style="font-family:system-ui;display:grid;place-items:center;height:100vh;background:#0b1020;color:#eaf2ff">' +
         '<div style="text-align:center"><h2>Access Denied 🚫</h2><p>Wrong or missing access code.</p></div></body>';
     }
-
     if (sessionStorage.getItem(SESSION_KEY) === "1") {
-      document.body.style.visibility = "visible";
-      return;
+      document.body.style.visibility = "visible"; return;
     }
-
     const input = prompt("🔒 This page is private. Please enter the access code:");
-    if (input === ACCESS_CODE) {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      document.body.style.visibility = "visible";
-    } else {
-      deny();
-    }
+    if (input === ACCESS_CODE) { sessionStorage.setItem(SESSION_KEY, "1"); document.body.style.visibility = "visible"; }
+    else { deny(); }
   })();
   </script>
-  <!-- ============================================= -->
 
   <!-- 动态背景 -->
   <div id="vanta-bg"></div>
@@ -251,68 +164,83 @@
   </header>
 
   <section class="section" id="gallery">
-  <div class="container">
-    <h2 data-aos="fade-left">🌸 所有故事都被时间妥帖安放</h2>
-    <p class="muted" data-aos="fade-left" data-aos-delay="120">
-      有些瞬间虽远，却始终温暖。
-    </p>
+    <div class="container">
+      <h2 data-aos="fade-left">🌸 所有故事都被时间妥帖安放</h2>
+      <p class="muted" data-aos="fade-left" data-aos-delay="120">有些瞬间虽远，却始终温暖。</p>
 
-    <!-- 筛选按钮 -->
-    <div class="gallery-filter" data-aos="fade-up" data-aos-delay="50">
-      <button class="gf-btn active" data-filter="*">All</button>
-      <button class="gf-btn" data-filter="research">Research</button>
-      <button class="gf-btn" data-filter="conf">Conference</button>
-      <button class="gf-btn" data-filter="grad">Graduation</button>
-      <button class="gf-btn" data-filter="dogs">Dogs</button>
+      <!-- 筛选按钮 -->
+      <div class="gallery-filter" data-aos="fade-up" data-aos-delay="50">
+        <button class="gf-btn active" data-filter="*">All</button>
+        <button class="gf-btn" data-filter="research">Research</button>
+        <button class="gf-btn" data-filter="conf">Conference</button>
+        <button class="gf-btn" data-filter="grad">Graduation</button>
+        <button class="gf-btn" data-filter="dogs">Dogs</button>
+      </div>
+
+      <div class="gallery" data-aos="fade-up" data-aos-delay="80">
+        <!-- 注意：此处改为 data-src + 占位 src，真正加载由 JS 触发 -->
+        <!-- Research -->
+        <a href="images/grad-1.jpg" data-lightbox="grad" data-title="清晨的自习室" data-group="research" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-1.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="清晨的自习室" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">清晨的自习室 · The quiet before the storm</span>
+        </a>
+
+        <a href="images/grad-2.jpg" data-lightbox="grad" data-title="实验中的微光" data-group="research" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-2.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="实验中的微光" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">实验中的微光 · Little lights, big dreams</span>
+        </a>
+
+        <!-- Conference -->
+        <a href="images/grad-3.jpg" data-lightbox="grad" data-title="第一次海报展示" data-group="conf" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-3.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="第一次海报展示" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">第一次海报展示 · First poster, first cheer</span>
+        </a>
+
+        <a href="images/grad-4.jpg" data-lightbox="grad" data-title="口头报告" data-group="conf" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-4.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="口头报告" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">口头报告 · Speak your light</span>
+        </a>
+
+        <!-- Graduation -->
+        <a href="images/grad-5.jpg" data-lightbox="grad" data-title="学位服与笑容" data-group="grad" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-5.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="学位服与笑容" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">学位服与笑容 · Crowned in light</span>
+        </a>
+
+        <a href="images/grad-6.jpg" data-lightbox="grad" data-title="家人的拥抱" data-group="grad" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-6.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="家人的拥抱" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">家人的拥抱 · All the love</span>
+        </a>
+
+        <!-- Dogs -->
+        <a href="images/grad-7.jpg" data-lightbox="grad" data-title="Vesper 的祝贺" data-group="dogs" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-7.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="Vesper 的祝贺" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">Vesper 的祝贺 · Tail-wagging applause</span>
+        </a>
+
+        <a href="images/grad-8.jpg" data-lightbox="grad" data-title="操场自由跑" data-group="dogs" class="tilt">
+          <img class="blur-up placeholder" data-src="images/grad-8.jpg"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+               alt="操场自由跑" loading="lazy" decoding="async" fetchpriority="low" />
+          <span class="cap">自由跑 · Joy at full speed</span>
+        </a>
+      </div>
     </div>
-
-    <div class="gallery" data-aos="fade-up" data-aos-delay="80">
-      <!-- Research -->
-      <a href="images/grad-1.jpg" data-lightbox="grad" data-title="清晨的自习室" data-group="research" class="tilt">
-        <img class="blur-up" src="images/grad-1.jpg" alt="清晨的自习室" loading="lazy" />
-        <span class="cap">清晨的自习室 · The quiet before the storm</span>
-      </a>
-
-      <a href="images/grad-2.jpg" data-lightbox="grad" data-title="实验中的微光" data-group="research" class="tilt">
-        <img class="blur-up" src="images/grad-2.jpg" alt="实验中的微光" loading="lazy" />
-        <span class="cap">实验中的微光 · Little lights, big dreams</span>
-      </a>
-
-      <!-- Conference -->
-      <a href="images/grad-3.jpg" data-lightbox="grad" data-title="第一次海报展示" data-group="conf" class="tilt">
-        <img class="blur-up" src="images/grad-3.jpg" alt="第一次海报展示" loading="lazy" />
-        <span class="cap">第一次海报展示 · First poster, first cheer</span>
-      </a>
-
-      <a href="images/grad-4.jpg" data-lightbox="grad" data-title="口头报告" data-group="conf" class="tilt">
-        <img class="blur-up" src="images/grad-4.jpg" alt="口头报告" loading="lazy" />
-        <span class="cap">口头报告 · Speak your light</span>
-      </a>
-
-      <!-- Graduation -->
-      <a href="images/grad-5.jpg" data-lightbox="grad" data-title="学位服与笑容" data-group="grad" class="tilt">
-        <img class="blur-up" src="images/grad-5.jpg" alt="学位服与笑容" loading="lazy" />
-        <span class="cap">学位服与笑容 · Crowned in light</span>
-      </a>
-
-      <a href="images/grad-6.jpg" data-lightbox="grad" data-title="家人的拥抱" data-group="grad" class="tilt">
-        <img class="blur-up" src="images/grad-6.jpg" alt="家人的拥抱" loading="lazy" />
-        <span class="cap">家人的拥抱 · All the love</span>
-      </a>
-
-      <!-- Dogs -->
-      <a href="images/grad-7.jpg" data-lightbox="grad" data-title="Vesper 的祝贺" data-group="dogs" class="tilt">
-        <img class="blur-up" src="images/grad-7.jpg" alt="Vesper 的祝贺" loading="lazy" />
-        <span class="cap">Vesper 的祝贺 · Tail-wagging applause</span>
-      </a>
-
-      <a href="images/grad-8.jpg" data-lightbox="grad" data-title="操场自由跑" data-group="dogs" class="tilt">
-        <img class="blur-up" src="images/grad-8.jpg" alt="操场自由跑" loading="lazy" />
-        <span class="cap">自由跑 · Joy at full speed</span>
-      </a>
-    </div>
-  </div>
-</section>
+  </section>
 
   <footer>
     <div class="container">
@@ -390,12 +318,7 @@
           '博士成功，狗狗同庆，一起撒花！🎉🐶',
           'System: Achievement Unlocked — “Doctor Mode Activated” 🧠⚡',
         ],
-        typeSpeed: 38,
-        backSpeed: 18,
-        backDelay: 1400,
-        smartBackspace: true,
-        loop: true,
-        contentType: 'html'
+        typeSpeed: 38, backSpeed: 18, backDelay: 1400, smartBackspace: true, loop: true, contentType: 'html'
       });
     }
 
@@ -408,43 +331,102 @@
       document.getElementById('year').textContent = new Date().getFullYear();
       window.addEventListener('resize', initVanta);
     }
-      // 1) 3D 轻微倾斜（只给 .tilt）
+
+    // 3D 轻微倾斜
     function initTilt(){
       const cards = document.querySelectorAll('.tilt');
       if(cards.length){
-        VanillaTilt.init(cards, {
-          max: 6,           // 最大倾斜角
-          speed: 400,
-          glare: true,      // 玻璃高光
-          "max-glare": 0.15
-        });
+        VanillaTilt.init(cards, { max: 6, speed: 400, glare: true, "max-glare": 0.15 });
       }
     }
 
-    // 2) Blur-up：图片加载完成后去模糊
-    function initBlurUp(){
-      document.querySelectorAll('.gallery img.blur-up').forEach(img=>{
-        if (img.complete) {
-          img.classList.remove('blur-up'); img.classList.add('loaded');
-        } else {
-          img.addEventListener('load', ()=>{
-            img.classList.remove('blur-up'); img.classList.add('loaded');
-          });
+    // Blur-up：图片加载完成后去模糊
+    function wireBlurUp(img){
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.remove('blur-up','placeholder'); img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', ()=>{
+          img.classList.remove('blur-up','placeholder'); img.classList.add('loaded');
+        }, { once:true });
+      }
+    }
+
+    // ==== 核心：懒加载 + 分批顺序加载（缓解 429） ====
+    function initSmartLazyLoad(){
+      const imgs = Array.from(document.querySelectorAll('.gallery img[data-src]'));
+      if(!imgs.length) return;
+
+      const MAX_CONCURRENT = 2;      // 同时最多加载 2 张
+      const START_INTERVAL_MS = 250; // 启动间隔 250ms
+      const queue = [];
+      let active = 0;
+      let lastStart = 0;
+
+      function startNext(){
+        if(active >= MAX_CONCURRENT || !queue.length) return;
+        const now = performance.now();
+        const wait = Math.max(0, START_INTERVAL_MS - (now - lastStart));
+        setTimeout(()=>{
+          const img = queue.shift();
+          if(!img || img.dataset.__started) return startNext();
+          img.dataset.__started = '1';
+          active++; lastStart = performance.now();
+
+          // 触发真实加载
+          const src = img.getAttribute('data-src');
+          img.src = src;
+          wireBlurUp(img);
+
+          const done = ()=>{ active--; startNext(); };
+          img.addEventListener('load', done, { once:true });
+          img.addEventListener('error', ()=>{
+            // 失败则稍后重试一次（简单退避）
+            delete img.dataset.__started;
+            setTimeout(()=>{ observeOne(img); startNext(); }, 1200);
+            done();
+          }, { once:true });
+        }, wait);
+      }
+
+      function enqueue(img){
+        if(!queue.includes(img)) { queue.push(img); startNext(); }
+      }
+
+      // 仅当进入视口才入队
+      const io = ('IntersectionObserver' in window)
+        ? new IntersectionObserver((entries)=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting){
+                enqueue(e.target);
+                io.unobserve(e.target);
+              }
+            });
+          }, { rootMargin: '200px 0px' })
+        : null;
+
+      function observeOne(img){
+        if(io) io.observe(img);
+        else enqueue(img); // 旧浏览器直接入队
+      }
+
+      // 初始绑定
+      imgs.forEach(img=>{
+        // 若已有真实 src（防止重复加载）
+        if(img.getAttribute('src') && img.getAttribute('src').startsWith('data:image')){
+          observeOne(img);
         }
       });
     }
 
-    // 3) 轻量分组筛选
+    // 轻量分组筛选（不触发加载）
     function initFilter(){
       const buttons = document.querySelectorAll('.gf-btn');
       const items = document.querySelectorAll('.gallery a');
-
       buttons.forEach(btn=>{
         btn.addEventListener('click', ()=>{
           buttons.forEach(b=>b.classList.remove('active'));
           btn.classList.add('active');
           const f = btn.dataset.filter;
-
           items.forEach(it=>{
             const show = (f === '*') || (it.dataset.group === f);
             it.style.display = show ? '' : 'none';
@@ -453,41 +435,45 @@
       });
     }
 
+    // Lightbox 调整动画，避免预加载造成瞬时并发过高（LB 本身仍会对相邻图做少量预取）
+    if (window.lightbox) {
+      lightbox.option({
+        fadeDuration: 180,
+        imageFadeDuration: 180,
+        resizeDuration: 180,
+        wrapAround: true,
+        disableScrolling: true
+      });
+    }
+
+    // ✅ 唯一的 window.load（移除你原来重复的那段）
     window.addEventListener('load', () => {
       initTilt();
-      initBlurUp();
       initFilter();
       initVanta();
       initTyped();
       initAOS();
       bindEvents();
+
+      // 懒加载必须最后启用，确保 DOM 就绪
+      initSmartLazyLoad();
+
+      // 页面初次打开自动放一遍礼花
       boomConfetti();
     });
 
-
-  window.addEventListener('load', () => {
-    initTilt();
-    initBlurUp();
-    initFilter();
-    initVanta();
-    initTyped();
-    initAOS();
-
-
-    bindEvents();
-    boomConfetti();
-  });
-
-  // 缩略图加载失败时，自动退回到 href 指向的大图
-  document.querySelectorAll('.gallery a').forEach(a=>{
-    const img = a.querySelector('img');
-    if (!img) return;
-    img.addEventListener('error', ()=>{
-      img.src = a.getAttribute('href');   // 用大图作为展示
-      img.classList.remove('blur-up');
-      img.classList.add('loaded');
+    // 缩略图加载失败时，自动退回到 href 指向的大图
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('.gallery a').forEach(a=>{
+        const img = a.querySelector('img');
+        if (!img) return;
+        img.addEventListener('error', ()=>{
+          img.src = a.getAttribute('href');
+          img.classList.remove('blur-up','placeholder');
+          img.classList.add('loaded');
+        }, { once:true });
+      });
     });
-  });
   </script>
 </body>
 </html>
