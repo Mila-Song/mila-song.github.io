@@ -61,10 +61,24 @@
     }
     .typed{ font-size: clamp(1.05rem, 1vw + .8rem, 1.4rem); color:var(--muted); min-height:2.2em; }
     .cta{ margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .btn{
-      appearance:none;border:0;cursor:pointer;padding:12px 18px;border-radius:999px;font-weight:600;
-      background: linear-gradient(135deg,var(--accent),var(--accent-2)); color:#051018; box-shadow: var(--shadow);
+    .btn {
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:600;
+      font-size:1rem;         /* ✅ 统一字体大小 */
+      line-height:1.4;        /* ✅ 统一行高 */
+      text-decoration:none;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#051018;
+      box-shadow: var(--shadow);
       transition: transform .06s ease;
+    }
+    a.btn,
+    button.btn {
+      text-decoration: none;
     }
     .btn:active{ transform: translateY(1px) scale(.99); }
     .btn.ghost{ background:transparent; border:1px solid rgba(167,139,250,.5); color:var(--text); }
@@ -122,6 +136,65 @@
       margin:40px 0 12px; font-weight:800; color:var(--accent-2); letter-spacing:.02em;
       border-left:4px solid var(--accent); padding-left:10px;
     }
+    /* === Password Letter Section === */
+    .letter-wrap{
+      margin-top:56px;
+      border:1px solid rgba(148,163,184,.18);
+      background: linear-gradient(180deg, rgba(15,23,42,.55), rgba(15,23,42,.35));
+      box-shadow: var(--shadow);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .letter-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:16px 18px;
+      background: linear-gradient(135deg, rgba(125,211,252,.10), rgba(167,139,250,.10));
+      border-bottom:1px solid rgba(148,163,184,.18);
+    }
+
+    .letter-head h3{
+      margin:0; font-size:1.05rem; letter-spacing:.02em; color:var(--accent-2);
+    }
+
+    .letter-body{ padding:18px; }
+
+    .lock-row{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+
+    .lock-row input[type="password"]{
+      flex:1 1 240px; background:#0b1328; color:var(--text);
+      border:1px solid rgba(148,163,184,.25); border-radius:12px;
+      padding:10px 12px; outline:none;
+    }
+
+    .lock-row button{
+      padding:10px 14px; border-radius:999px; border:0; cursor:pointer;
+      font-weight:600; background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#051018; box-shadow: var(--shadow);
+    }
+
+    .lock-row .toggle-eye{
+      background:transparent; border:1px solid rgba(148,163,184,.25);
+      color:var(--muted); border-radius:12px; padding:9px 12px; cursor:pointer;
+    }
+
+    .err-msg{ color:#fda4af; font-size:.92rem; margin-top:10px; min-height:1.2em; }
+
+    .letter-content{
+      display:none; white-space:pre-wrap; line-height:1.8; color:var(--text);
+      background: linear-gradient(180deg, rgba(2,6,23,.35), rgba(2,6,23,.15));
+      border:1px dashed rgba(148,163,184,.25);
+      border-radius:12px; padding:16px; margin-top:8px;
+    }
+
+    .letter-meta{
+      font-size:.9rem; color:var(--muted); margin-top:10px;
+    }
+
+    /* show when unlocked */
+    .letter-content.show{ display:block; }
 
     footer{padding:48px 16px 72px;text-align:center;color:var(--muted);}
   </style>
@@ -157,9 +230,10 @@
       <h1>恭喜博士毕业，<span style="background:linear-gradient(90deg,#7dd3fc,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent;">Dr. Mingyu Song</span>！</h1>
       <div class="typed" id="typed"></div>
       <div class="cta">
-        <button class="btn" id="btn-confetti">🎉 再来庆祝一下</button>
-        <a class="btn ghost" href="#gallery">📸 快来看看我</a>
-      </div>
+      <button class="btn" id="btn-confetti">🎉 再来庆祝下</button>
+      <a class="btn ghost" href="#gallery">📸 快来看看我</a>
+      <a class="btn" href="#letter">💌 一封慢信笺</a>
+    </div>
     </div>
   </header>
 
@@ -241,6 +315,41 @@
       </div>
     </div>
   </section>
+
+  <section class="section" id="letter">
+  <div class="container">
+    <div class="letter-wrap" data-aos="fade-up">
+      <div class="letter-head">
+        <h3>📨 Letter Just For You</h3>
+        <span class="muted">快输入密码</span>
+      </div>
+      <div class="letter-body">
+        <div id="lock-area" class="lock-row" role="form" aria-label="Letter unlock">
+          <input id="letter-pass" type="password" inputmode="text" autocomplete="off"
+                 placeholder="输入密码 / Enter passphrase" aria-label="Passphrase" />
+          <button type="button" class="toggle-eye" id="btn-eye" aria-pressed="false" aria-label="Show/Hide">
+            👁️
+          </button>
+          <button type="button" id="btn-unlock">解锁</button>
+        </div>
+        <div id="err" class="err-msg" aria-live="polite"></div>
+
+        <!-- 🔐 Your letter content goes here (keep it hidden until unlocked) -->
+        <div id="letter-content" class="letter-content" aria-hidden="true">
+亲爱的明玉，
+
+这一路，你把“努力”二字写得很温柔。所有熬过的夜、改过的稿、流过的泪，都被今天的笑容一一照亮。
+
+愿你今后每一次出发，都带着被爱与被看见的笃定；愿世界温柔以待，而你永远灿若星河。
+
+—— 永远为你骄傲的人 🫶
+        </div>
+        <div class="letter-meta muted">提示：成功解锁后，本次会话内将自动记住，无需重复输入。</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
 
   <footer>
     <div class="container">
@@ -446,6 +555,60 @@
       });
     }
 
+      // === Password Letter Gate ===
+  function initLetterGate(){
+    const STORAGE_KEY = '__letter_unlocked_v1';
+    const LETTER_CODE = 'dr-song-2025'; // ←← 修改为你的口令（仅前端可见）
+    const $pass = document.getElementById('letter-pass');
+    const $unlock = document.getElementById('btn-unlock');
+    const $eye = document.getElementById('btn-eye');
+    const $err = document.getElementById('err');
+    const $content = document.getElementById('letter-content');
+    const $lockArea = document.getElementById('lock-area');
+
+    if(!$pass || !$unlock || !$content) return;
+
+    // already unlocked in this session?
+    if (sessionStorage.getItem(STORAGE_KEY) === '1'){
+      reveal();
+    }
+
+    function reveal(){
+      $content.classList.add('show');
+      $content.setAttribute('aria-hidden','false');
+      $lockArea.style.display = 'none';
+      $err.textContent = '';
+    }
+
+    function tryUnlock(){
+      const v = ($pass.value || '').trim();
+      if(!v){
+        $err.textContent = '请输入口令 / Please enter the passphrase.';
+        return;
+      }
+      if(v === LETTER_CODE){
+        sessionStorage.setItem(STORAGE_KEY, '1');
+        reveal();
+        // 小庆祝~
+        try { confetti && confetti({ particleCount: 80, spread: 70, origin: { y: .6 } }); } catch(e){}
+      }else{
+        $err.textContent = '口令不正确，请再试一次。';
+        // 轻微摇动反馈
+        $pass.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}], {duration:180});
+        $pass.focus();
+        $pass.select && $pass.select();
+      }
+    }
+
+    $unlock.addEventListener('click', tryUnlock);
+    $pass.addEventListener('keydown', e=>{ if(e.key === 'Enter') tryUnlock(); });
+    $eye.addEventListener('click', ()=>{
+      const isPwd = $pass.type === 'password';
+      $pass.type = isPwd ? 'text' : 'password';
+      $eye.setAttribute('aria-pressed', String(isPwd));
+    });
+  }
+
     // ✅ 唯一的 window.load（移除你原来重复的那段）
     window.addEventListener('load', () => {
       initTilt();
@@ -457,6 +620,9 @@
 
       // 懒加载必须最后启用，确保 DOM 就绪
       initSmartLazyLoad();
+
+      // 🔑 init letter gate
+      initLetterGate();
 
       // 页面初次打开自动放一遍礼花
       boomConfetti();
